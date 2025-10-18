@@ -3,8 +3,3 @@ Chương trình (website) này được tạo ra bởi trường THCS Đặng T�
 ## Authors
 
 - [Nguyễn Khôi Nguyên](https://www.github.com/nguyenidkskibidi)
-
-
-## Demo
-
-https://youtu.be/YUlYWOzb4t4
