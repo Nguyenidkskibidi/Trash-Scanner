@@ -1,0 +1,7 @@
+{
+  "name": "Copy of Copy of AI Phân Loại Rác Thải",
+  "description": "Một ứng dụng thông minh sử dụng webcam của bạn để xác định và phân loại rác thải, cung cấp cho bạn hướng dẫn xử lý và tái chế phù hợp.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

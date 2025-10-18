@@ -1,0 +1,264 @@
+{
+    "header": {
+        "title1": "AI Phân Loại",
+        "title2": "Rác Thải",
+        "subtitle": "Sử dụng webcam của bạn để xác định rác và nhận hướng dẫn xử lý phù hợp.",
+        "openSettings": "Mở cài đặt"
+    },
+    "nav": {
+        "camera": "Quét Camera",
+        "search": "Tìm kiếm",
+        "game": "Trò chơi"
+    },
+    "camera": {
+        "status": {
+            "error": "Lỗi Camera",
+            "initializing": "Đang khởi tạo...",
+            "paused": "Đã tạm dừng",
+            "analyzing": "Đang phân tích...",
+            "ready": "Sẵn sàng",
+            "starting": "Đang khởi động camera..."
+        },
+        "error": {
+            "access": "Không thể truy cập webcam. Vui lòng kiểm tra quyền và thử lại."
+        },
+        "paused": {
+            "title": "Camera đã tạm dừng",
+            "subtitle": "Nhấn để tiếp tục"
+        },
+        "capture": "Chụp",
+        "switch": "Chuyển camera",
+        "auto": "Tự động",
+        "resume": "Tiếp tục",
+        "pause": "Tạm dừng",
+        "autoPaused": "Quét tự động đã tạm dừng.",
+        "manualMode": "Sử dụng nút \"Chụp\" để phân tích một vật thể.",
+        "scanMsg1": "Đang quét tự động... Hướng camera vào một vật thể.",
+        "scanMsg2": "Đang tìm vật thể để phân tích...",
+        "scanMsg3": "Chế độ tự động đang bật. Giữ vững camera!",
+        "scanMsg4": "AI đang theo dõi... Cho tôi xem gì đó đi!",
+        "tooltip": {
+            "capture": "Chụp ảnh để AI phân tích. (Tắt chế độ Tự động để sử dụng)",
+            "switch": "Chuyển đổi giữa camera trước/sau",
+            "autoMode": "Bật/tắt chế độ quét tự động.",
+            "resume": "Tiếp tục quét",
+            "pause": "Tạm dừng quét (chỉ trong chế độ tự động)"
+        },
+        "analysis": {
+            "step1": "Đang xác định đường nét vật thể...",
+            "step2": "Đang phân tích vật liệu & kết cấu...",
+            "step3": "Đang tra cứu cơ sở dữ liệu..."
+        }
+    },
+    "search": {
+        "title": "Tìm kiếm Thông tin Rác thải",
+        "subtitle": "Nhập tên một loại rác (ví dụ: \"hộp sữa\", \"pin AA\") để xem hướng dẫn xử lý và hình minh họa.",
+        "expertNote": "Chế độ Chuyên gia: Tìm kiếm nhanh để có kết quả tốt nhất!",
+        "placeholder": "Nhập loại rác...",
+        "ariaLabel": "Tên loại rác",
+        "searchButton": "Tìm kiếm",
+        "timeUp": "Hết thời gian tìm kiếm!",
+        "suggestions": "Chai nhựa, Lon nhôm, Báo cũ, Hộp carton, Pin AA, Bóng đèn, Túi nilon, Hộp sữa, Lon bia, Chai thủy tinh, Đồ điện tử cũ, Hộp đựng thức ăn, Quần áo cũ, Gỗ vụn, Rác hữu cơ, Vỏ trứng, Lá khô, Hộp xốp, Pin điện thoại, Sạc cũ"
+    },
+    "result": {
+        "recyclable": "Có thể tái chế",
+        "notRecyclable": "Không thể tái chế",
+        "conditional": "Tùy điều kiện",
+        "imageAlt": "Hình minh họa cho {{item}}",
+        "material": "Vật liệu",
+        "recyclingStatus": "Tình trạng tái chế",
+        "disposalInstructions": "Hướng dẫn xử lý",
+        "funFact": "Sự thật thú vị",
+        "askAI": "Hỏi AI thêm",
+        "askAriaLabel": "Hỏi AI về loại rác này",
+        "reportIncorrect": "Báo cáo sai",
+        "capturedImageAlt": "Ảnh chụp vật thể rác",
+        "continueScanning": "Tiếp tục Quét",
+        "notFound": {
+            "title1": "Không phát hiện vật thể rác",
+            "title2": "Hmm, tôi không thấy rõ vật thể nào",
+            "title3": "Không tìm thấy vật thể rõ ràng",
+            "title4": "AI cần nhìn rõ hơn!",
+            "subtitle1": "Vui lòng thử lại với vật thể khác. Đang quay lại chế độ quét...",
+            "subtitle2": "Hãy thử một góc khác hoặc đưa vật thể lại gần hơn.",
+            "subtitle3": "Hãy đảm bảo có đủ ánh sáng để AI nhìn rõ.",
+            "subtitle4": "Giữ vững camera và thử lại."
+        }
+    },
+    "compliment": {
+        "title": "Phát hiện người dùng tuyệt vời!",
+        "imageAlt": "Ảnh của một người dùng tuyệt vời"
+    },
+    "loader": {
+        "analyzing": "Đang phân tích ảnh...",
+        "searching": "Đang tìm kiếm thông tin...",
+        "generatingQuiz": "Đang tạo câu hỏi...",
+        "tip": "Mẹo hữu ích",
+        "quiz": {
+            "step1": "Đang nghĩ các chủ đề thú vị...",
+            "step2": "Đang soạn các câu hỏi hóc búa...",
+            "step3": "Đang tạo hình ảnh minh họa...",
+            "step4": "Sắp xong rồi, đang xáo trộn câu hỏi..."
+        }
+    },
+    "tips": {
+        "tip1": "Mỗi chai nhựa có thể mất tới 450 năm để phân hủy.",
+        "tip2": "Tái chế một lon nhôm tiết kiệm đủ năng lượng để chạy TV trong 3 giờ.",
+        "tip3": "Pin cũ là rác thải điện tử nguy hại và phải được xử lý riêng.",
+        "tip4": "Hãy đảm bảo làm sạch hộp đựng thực phẩm trước khi tái chế.",
+        "tip5": "Túi nilon rất khó tái chế; hãy cố gắng hạn chế sử dụng.",
+        "tip6": "Giấy dính dầu mỡ không thể tái chế được.",
+        "tip7": "Tái chế giấy tiết kiệm một lượng nước đáng kể.",
+        "tip8": "Thủy tinh có thể được tái chế vô hạn mà không làm giảm chất lượng.",
+        "tip9": "Tắt các thiết bị điện tử khi không sử dụng để tiết kiệm năng lượng.",
+        "tip10": "Sử dụng bóng đèn LED tiết kiệm hơn 75% năng lượng so với bóng đèn sợi đốt.",
+        "tip11": "Rác hữu cơ có thể được ủ để tạo phân bón cho cây trồng."
+    },
+    "game": {
+        "title": "Thử thách Phân loại Rác",
+        "howToPlay": "Cách chơi",
+        "rule1Title": "Giới hạn thời gian",
+        "rule1Desc": "Trả lời các câu hỏi trong vòng {{timeLimit}} phút.",
+        "rule2Title": "Điểm số",
+        "rule2Desc": "Bạn nhận được 1 điểm cho mỗi câu trả lời đúng.",
+        "rule3Title": "Mục tiêu",
+        "rule3Desc": "Hoàn thành tất cả các câu hỏi trước khi hết giờ!",
+        "start": "Bắt đầu chơi",
+        "expertWarning": {
+            "title": "Cảnh báo Chế độ Chuyên gia!",
+            "desc": "Các câu hỏi sẽ khó hơn và thời gian bị giới hạn. Bạn đã sẵn sàng chưa?"
+        },
+        "difficulty": {
+            "title": "Chọn độ khó",
+            "easy": "Dễ",
+            "medium": "Trung bình",
+            "hard": "Khó",
+            "easyDesc": "10 câu / 10 phút. Tuyệt vời cho người mới bắt đầu.",
+            "mediumDesc": "15 câu / 15 phút. Một thử thách cân bằng.",
+            "hardDesc": "20 câu / 15 phút. Dành cho các chuyên gia rác thải thực thụ!"
+        },
+        "question": "Câu hỏi",
+        "score": "Điểm",
+        "correct": "Chính xác!",
+        "incorrect": "Không chính xác!",
+        "nextQuestion": "Câu tiếp theo",
+        "seeResults": "Xem kết quả",
+        "playAgain": "Chơi lại",
+        "result": {
+            "timeUp": "Hết giờ!",
+            "completed": "Hoàn thành Thử thách!",
+            "thanks": "Cảm ơn bạn đã chơi, {{name}}!",
+            "timeUpMessage": "Rất tiếc, bạn đã không hoàn thành kịp thời gian.",
+            "feedback1": "Cố gắng hơn nhé!",
+            "feedback2": "Kiến thức tốt!",
+            "feedback3": "Xuất sắc! Bạn là một chuyên gia tái chế!"
+        }
+    },
+    "chat": {
+        "back": "Quay lại",
+        "title": "Hỏi AI về \"{{item}}\"",
+        "placeholder": "Nhập câu hỏi của bạn...",
+        "send": "Gửi tin nhắn",
+        "greeting": "Xin chào! Bạn còn câu hỏi nào về \"{{item}}\" không? Tôi ở đây để giúp bạn.",
+        "error": "Xin lỗi, tôi đang gặp sự cố. Vui lòng thử lại sau."
+    },
+    "feedback": {
+        "title": "Báo cáo Phân tích Sai",
+        "item": "Vật phẩm: {{item}}",
+        "whatWasWrong": "Thông tin nào không chính xác?",
+        "options": {
+            "type": "Sai loại rác",
+            "material": "Sai vật liệu",
+            "recyclable": "Sai tình trạng tái chế",
+            "instructions": "Sai hướng dẫn xử lý",
+            "other": "Khác"
+        },
+        "comments": "Bình luận thêm (không bắt buộc)",
+        "commentsPlaceholder": "Cung cấp thêm chi tiết...",
+        "submit": "Gửi phản hồi",
+        "success": "Cảm ơn bạn đã phản hồi! Chúng tôi sẽ xem xét để cải thiện ứng dụng."
+    },
+    "settings": {
+        "close": "Đóng cài đặt",
+        "title": "Cài đặt",
+        "personalInfo": "Thông tin cá nhân",
+        "appearance": "Giao diện",
+        "language": "Ngôn ngữ",
+        "expertMode": {
+            "title": "Chế độ Chuyên gia",
+            "enable": "Bật Chế độ Chuyên gia",
+            "description": "Nhận câu hỏi khó hơn, giải thích chi tiết hơn và thử thách tìm kiếm có giới hạn thời gian."
+        },
+        "camera": {
+            "title": "Camera",
+            "scanInterval": "Tần suất quét tự động",
+            "seconds": "{{count}} giây"
+        },
+        "data": {
+            "title": "Dữ liệu",
+            "reset": "Đặt lại tất cả dữ liệu",
+            "resetDescription": "Thao tác này sẽ xóa tất cả cài đặt và thông tin cá nhân của bạn.",
+            "resetButton": "Đặt lại",
+            "confirmReset": "Bạn có chắc chắn muốn xóa tất cả dữ liệu không? Hành động này không thể hoàn tác."
+        },
+        "genders": "Nam,Nữ,Khác",
+        "salutations": "Anh,Chị,Bạn"
+    },
+    "setup": {
+        "step": "Bước {{current}} trên {{total}}",
+        "name": {
+            "title": "Đầu tiên,",
+            "subtitle": "Tên của bạn là gì?",
+            "placeholder": "Nhập tên của bạn..."
+        },
+        "device": {
+            "title": "Bạn đang dùng thiết bị nào?",
+            "subtitle": "Lựa chọn này sẽ giúp tối ưu hóa giao diện camera cho bạn.",
+            "computer": "Máy tính",
+            "computerDesc": "Máy tính để bàn hoặc Laptop",
+            "phone": "Điện thoại",
+            "phoneDesc": "Điện thoại thông minh hoặc Máy tính bảng"
+        },
+        "details": {
+            "name": "Tên",
+            "device": "Thiết bị",
+            "gender": "Giới tính",
+            "dob": "Ngày sinh",
+            "salutation": "Xưng hô"
+        },
+        "finish": {
+            "title": "Đã xong!",
+            "subtitle": "Cảm ơn bạn đã cung cấp thông tin. Chúc bạn có một trải nghiệm tuyệt vời."
+        },
+        "error": {
+            "name": "Vui lòng nhập tên của bạn.",
+            "device": "Vui lòng chọn loại thiết bị.",
+            "info": "Vui lòng điền đầy đủ thông tin.",
+            "dobFormat": "Vui lòng nhập đầy đủ ngày sinh theo định dạng DD/MM/YYYY.",
+            "dobInvalid": "Ngày sinh không hợp lệ. Vui lòng kiểm tra lại.",
+            "dobPast": "Năm sinh phải từ 1900 trở đi.",
+            "dobFuture": "Ngày sinh không thể ở trong tương lai."
+        }
+    },
+    "theme": {
+        "select": "Chọn giao diện",
+        "theme": "Giao diện"
+    },
+    "footer": {
+        "copyright": "Bản quyền thuộc về Nguyễn Khôi Nguyên, tạo ra cho mục đích sử dụng nội bộ và người dùng, vui lòng không phân phối trang web này."
+    },
+    "common": {
+        "next": "Tiếp",
+        "back": "Quay lại",
+        "finish": "Hoàn thành",
+        "save": "Lưu thay đổi",
+        "cancel": "Hủy",
+        "retry": "Thử lại"
+    },
+    "error": {
+        "title": "Đã xảy ra lỗi",
+        "analysis": "Không thể phân tích hình ảnh. Vui lòng thử lại.",
+        "search": "Không thể tìm kiếm thông tin. Vui lòng thử lại.",
+        "quiz": "Không thể tạo câu hỏi. Vui lòng thử lại sau."
+    }
+}
