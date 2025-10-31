@@ -1,11 +1,16 @@
 import { GoogleGenAI, Type } from '@google/genai';
 import type { WasteInfo, QuizQuestion, ChatMessage, Language } from '../types';
 
-if (!process.env.API_KEY) {
-  throw new Error("API_KEY environment variable not set");
+// 🔥 FIX: DÙNG TRỰC TIẾP TÊN BIẾN VITE_GEMINI_API_KEY
+const GEMINI_API_KEY = process.env.VITE_GEMINI_API_KEY;
+
+if (!GEMINI_API_KEY) {
+  // ⚠️ THÔNG BÁO LỖI RÕ RÀNG HƠN
+  throw new Error("VITE_GEMINI_API_KEY environment variable not set. Please check your .env file.");
 }
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// 🔥 FIX: Sử dụng biến Key đã được xác định
+const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
 const getLocalizedSchemaDescriptions = (language: Language) => {
     const isVi = language === 'vi';

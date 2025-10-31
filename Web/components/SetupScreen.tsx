@@ -3,7 +3,7 @@ import { ComputerIcon } from './icons/ComputerIcon';
 import { PhoneIcon } from './icons/PhoneIcon';
 import type { DeviceType, UserProfile, Gender, Salutation, Language } from '../types';
 import { useTranslation } from '../hooks/useTranslation';
-// 🔥 FIX 1: THAY THẾ IMPORT COMPONENT BẰNG IMPORT ẢNH TĨNH
+// 🔥 FIX 1: THAY THẾ IMPORT COMPONENT BẰNG IMPORT ẢNH TĨNH (.png)
 import VietnamFlag from './icons/VietnamFlagIcon.png'; 
 import UKFlag from './icons/UKFlagIcon.png'; 
 
@@ -31,7 +31,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({ onSetupComplete, initi
   const [profile, setProfile] = useState<Partial<UserProfile>>({ name: '', dob: '' });
   const [error, setError] = useState<string | null>(null);
 
-  const t = useTranslation(language); // Giữ nguyên hàm t
+  const t = useTranslation(language); // Giữ nguyên hàm dịch thuật
 
   const handleFinish = useCallback(() => {
     onSetupComplete(profile as UserProfile, language);
@@ -40,7 +40,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({ onSetupComplete, initi
   const nextStep = useCallback(() => {
     setError(null);
     if (step === 1 && !language) {
-      setError("Please select a language."); 
+      setError(t('setup.error.language')); // 🔥 FIX: Dùng t() cho lỗi ngôn ngữ
       return;
     }
     if (step === 2 && !profile.name?.trim()) {
@@ -136,31 +136,33 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({ onSetupComplete, initi
       case 1:
         return (
             <div className="w-full max-w-2xl">
-                <h2 className="text-3xl font-bold text-text-main font-display">Chọn Ngôn ngữ / Select Language</h2>
+                <h2 className="text-3xl font-bold text-text-main font-display">{t('setup.language.title')}</h2>
                 <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4 sm:gap-8">
                     <button
                         onClick={() => setLanguage('vi')}
                         className={`flex flex-col items-center justify-center p-4 sm:p-8 bg-card rounded-xl shadow-neumorphic transition-all duration-200 hover:-translate-y-2 hover:shadow-xl w-48 h-48 sm:w-56 sm:h-56 border-4 ${language === 'vi' ? 'border-brand-green' : 'border-transparent'}`}
                     >
-                        {/* 🔥 FIX 2: THAY THẾ COMPONENT BẰNG THẺ <img> */}
+                        {/* 🔥 FIX 2: SỬ DỤNG THẺ <img> VÀ TỶ LỆ 2:3 */}
                         <img 
                             src={VietnamFlag} 
                             alt="Vietnam Flag" 
-                            className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg shadow-md" 
+                            className="w-16 h-auto sm:w-20 rounded-lg shadow-md object-cover" 
+                            style={{ aspectRatio: '3/2' }} 
                         />
-                        <span className="mt-3 text-lg sm:text-xl font-bold text-text-main font-display">Tiếng Việt</span>
+                        <span className="mt-3 text-lg sm:text-xl font-bold text-text-main font-display">{t('setup.language.vietnamese')}</span>
                     </button>
                     <button
                         onClick={() => setLanguage('en')}
                         className={`flex flex-col items-center justify-center p-4 sm:p-8 bg-card rounded-xl shadow-neumorphic transition-all duration-200 hover:-translate-y-2 hover:shadow-xl w-48 h-48 sm:w-56 sm:h-56 border-4 ${language === 'en' ? 'border-brand-green' : 'border-transparent'}`}
                     >
-                        {/* 🔥 FIX 3: THAY THẾ COMPONENT BẰNG THẺ <img> */}
-                        <img 
+                        {/* 🔥 FIX 3: SỬ DỤNG THẺ <img> VÀ TỶ LỆ 1:2 */}
+                         <img 
                             src={UKFlag} 
                             alt="UK Flag" 
-                            className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg shadow-md" 
+                            className="w-16 h-auto sm:w-20 rounded-lg shadow-md object-cover" 
+                            style={{ aspectRatio: '2/1' }} 
                         />
-                        <span className="mt-3 text-lg sm:text-xl font-bold text-text-main font-display">English</span>
+                        <span className="mt-3 text-lg sm:text-xl font-bold text-text-main font-display">{t('setup.language.english')}</span>
                     </button>
                 </div>
             </div>
@@ -199,7 +201,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({ onSetupComplete, initi
               </button>
               <button
                 onClick={() => setProfile(p => ({ ...p, deviceType: 'phone' }))}
-                className={`flex flex-col items-center justify-center p-4 sm:p-8 bg-card rounded-xl shadow-neumorphic transition-all duration-200 hover:-translate-y-2 hover:-shadow-xl w-48 h-48 sm:w-56 sm:h-56 border-4 ${profile.deviceType === 'phone' ? 'border-brand-green' : 'border-transparent'}`}
+                className={`flex flex-col items-center justify-center p-4 sm:p-8 bg-card rounded-xl shadow-neumorphic transition-all duration-200 hover:-translate-y-2 hover:shadow-xl w-48 h-48 sm:w-56 sm:h-56 border-4 ${profile.deviceType === 'phone' ? 'border-brand-green' : 'border-transparent'}`}
               >
                 <PhoneIcon className="w-12 h-12 sm:w-16 sm:h-16 text-brand-green" />
                 <span className="mt-3 text-lg sm:text-xl font-bold text-text-main font-display">{t('setup.device.phone')}</span>

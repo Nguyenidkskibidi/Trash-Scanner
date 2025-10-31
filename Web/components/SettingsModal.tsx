@@ -2,19 +2,17 @@ import React, { useState, useEffect } from 'react';
 import type { UserProfile, AppSettings, Gender, Salutation, Theme, Language, DeviceType } from '../types';
 import { BackIcon } from './icons/BackIcon';
 import { ThemeSwitcher } from './ThemeSwitcher';
-// 🔥 FIX 1: LOẠI BỎ IMPORT COMPONENT TSX GỐC và chỉ dùng import file ảnh PNG
-// LƯU Ý: Đảm bảo file VietnamFlagIcon.png và UKFlagIcon.png tồn tại trong thư mục ./icons/
+
+// 🔥 FIX 1: THAY THẾ IMPORT COMPONENT BỊ LỖI BẰNG IMPORT ẢNH TĨNH (.png)
 import VietnamFlag from './icons/VietnamFlagIcon.png'; 
 import UKFlag from './icons/UKFlagIcon.png'; 
-// Thêm các icon SVG (vì chúng vẫn là component TSX)
+
+// 🔥 Thêm các component Icon SVG còn lại
 import { ComputerIcon } from './icons/ComputerIcon';
 import { PhoneIcon } from './icons/PhoneIcon';
 
 interface SettingsModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  profile: UserProfile;
-  settings: AppSettings;
+// ... (Props giữ nguyên)
   onSave: (profile: UserProfile, settings: AppSettings) => void;
   onResetApp: () => void;
   t: (key: string, options?: { [key: string]: string | number }) => string;
@@ -32,6 +30,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   const [currentProfile, setCurrentProfile] = useState(profile);
   const [currentSettings, setCurrentSettings] = useState(settings);
   const [isAnimatingOut, setIsAnimatingOut] = useState(false);
+
+// ... (Các hàm và logic khác giữ nguyên)
 
   useEffect(() => {
     if (isOpen) {
@@ -88,7 +88,6 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   const handleReminderToggle = async () => {
     // Toggling from OFF to ON
     if (!currentSettings.enableReminder) {
-        // TẠM THỜI DÙNG alert() VÀ window.confirm() cho chức năng này
         if (!('Notification' in window)) {
             alert(t('settings.notifications.notSupported'));
             return;
@@ -230,7 +229,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 <label className="font-semibold text-text-main">{t('settings.language')}</label>
                 <div className="flex items-center gap-1"> 
                     
-                    {/* Nút Vietnam (Sử dụng <img>) */}
+                    {/* Nút Vietnam */}
                     <button 
                         onClick={() => handleLanguageChange('vi')} 
                         className={`p-1 rounded-md transition-all duration-200 ${
@@ -239,10 +238,10 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                             : 'opacity-70 hover:opacity-100 hover:bg-white/10'
                         }`}
                     >
-                        <img src={VietnamFlag} alt="Vietnam Flag" className="w-8 h-6 rounded-sm shadow-sm" />
+                        <img src={VietnamFlag} alt="Vietnam Flag" className="w-12 h-8 rounded-sm shadow-sm object-cover" />
                     </button>
                     
-                    {/* Nút UK (Sử dụng <img>) */}
+                    {/* Nút UK */}
                     <button 
                         onClick={() => handleLanguageChange('en')} 
                         className={`p-1 rounded-md transition-all duration-200 ${
@@ -251,7 +250,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                             : 'opacity-70 hover:opacity-100 hover:bg-white/10'
                         }`}
                     >
-                        <img src={UKFlag} alt="UK Flag" className="w-8 h-6 rounded-sm shadow-sm" />
+                        <img src={UKFlag} alt="UK Flag" className="w-12 h-6 rounded-sm shadow-sm object-cover" />
                     </button>
                 </div>
             </div>
