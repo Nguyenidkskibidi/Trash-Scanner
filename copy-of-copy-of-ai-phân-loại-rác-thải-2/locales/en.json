@@ -1,0 +1,284 @@
+{
+    "header": {
+        "title1": "AI Waste",
+        "title2": "Classifier",
+        "subtitle": "Use your webcam to identify waste and get proper disposal instructions.",
+        "openSettings": "Open settings"
+    },
+    "nav": {
+        "camera": "Camera Scan",
+        "search": "Search",
+        "game": "Game"
+    },
+    "camera": {
+        "status": {
+            "error": "Camera Error",
+            "initializing": "Initializing...",
+            "paused": "Paused",
+            "analyzing": "Analyzing...",
+            "ready": "Ready",
+            "starting": "Starting camera..."
+        },
+        "error": {
+            "access": "Could not access webcam. Please check permissions and try again."
+        },
+        "paused": {
+            "title": "Camera Paused",
+            "subtitle": "Click to resume"
+        },
+        "capture": "Capture",
+        "switch": "Switch camera",
+        "auto": "Auto",
+        "resume": "Resume camera",
+        "pause": "Pause camera",
+        "autoPaused": "Auto-scan is paused.",
+        "manualMode": "Use the \"Capture\" button to analyze an object.",
+        "scanMsg1": "Auto-scanning... Point the camera at an object.",
+        "scanMsg2": "Searching for an object to analyze...",
+        "scanMsg3": "Auto mode is on. Hold the camera steady!",
+        "scanMsg4": "The AI is watching... Show me something!",
+        "tooltip": {
+            "capture": "Take a picture for the AI to analyze. (Disable Auto mode to use)",
+            "switch": "Switch between front/back camera",
+            "autoMode": "Toggle automatic scanning mode.",
+            "resume": "Resume camera",
+            "pause": "Pause camera (in auto mode only)"
+        },
+        "analysis": {
+            "step1": "Identifying object outlines...",
+            "step2": "Analyzing materials & textures...",
+            "step3": "Consulting database..."
+        }
+    },
+    "search": {
+        "title": "Search for Waste Information",
+        "subtitle": "Enter the name of a waste item (e.g., \"milk carton\", \"AA battery\") to see disposal instructions and an illustration.",
+        "expertNote": {
+            "title": "Expert Mode Enabled!",
+            "description": "Request speed is increased for faster searching. It is recommended not to toggle this feature too frequently to prevent potential issues."
+        },
+        "placeholder": "Enter waste type...",
+        "ariaLabel": "Waste type name",
+        "searchButton": "Search",
+        "timeUp": "Search time is up!",
+        "suggestions": "Plastic bottle, Aluminum can, Newspaper, Cardboard box, AA battery, Light bulb, Plastic bag, Milk carton, Beer can, Glass bottle, Old electronics, Food container, Old clothes, Broken wood, Organic waste, Eggshells, Dry leaves, Styrofoam box, Phone battery, Old charger",
+        "clear": "Clear",
+        "clearAll": "Clear all suggestions"
+    },
+    "result": {
+        "recyclable": "Recyclable",
+        "notRecyclable": "Not Recyclable",
+        "conditional": "Conditional",
+        "imageAlt": "Illustration for {{item}}",
+        "material": "Material",
+        "recyclingStatus": "Recycling Status",
+        "disposalInstructions": "Disposal Instructions",
+        "funFact": "Fun Fact",
+        "askAI": "Ask AI More",
+        "askAriaLabel": "Ask AI about this waste type",
+        "reportIncorrect": "Report incorrect",
+        "capturedImageAlt": "Captured waste items",
+        "continueScanning": "Continue Scanning",
+        "notFound": {
+            "title1": "No waste objects detected",
+            "title2": "Hmm, I can't see anything clearly",
+            "title3": "No distinct object found",
+            "title4": "The AI needs a better look!",
+            "subtitle1": "Please try again with a different object. Returning to scan mode...",
+            "subtitle2": "Try a different angle or bring the object closer.",
+            "subtitle3": "Make sure there's enough light for the AI to see clearly.",
+            "subtitle4": "Hold the camera steady and try again."
+        }
+    },
+    "compliment": {
+        "title": "Awesome User Detected!",
+        "imageAlt": "Photo of an awesome user"
+    },
+    "loader": {
+        "analyzing": "Analyzing image...",
+        "searching": "Searching for information...",
+        "generatingQuiz": "Generating quiz questions...",
+        "tip": "Handy tip",
+        "quiz": {
+            "step1": "Thinking of interesting topics...",
+            "step2": "Crafting challenging questions...",
+            "step3": "Generating illustrative images...",
+            "step4": "Almost ready, shuffling questions..."
+        }
+    },
+    "tips": {
+        "tip1": "Each plastic bottle can take up to 450 years to decompose.",
+        "tip2": "Recycling one aluminum can saves enough energy to run a TV for 3 hours.",
+        "tip3": "Old batteries are hazardous e-waste and must be disposed of separately.",
+        "tip4": "Make sure to clean food containers before recycling them.",
+        "tip5": "Plastic bags are very difficult to recycle; try to limit their use.",
+        "tip6": "Paper stained with grease or oil cannot be recycled.",
+        "tip7": "Recycling paper saves a significant amount of water.",
+        "tip8": "Glass can be recycled infinitely without losing quality.",
+        "tip9": "Turn off electronic devices when not in use to save energy.",
+        "tip10": "Using LED bulbs saves over 75% more energy than incandescent bulbs.",
+        "tip11": "Organic waste can be composted to create fertilizer for plants."
+    },
+    "game": {
+        "title": "Waste Sorting Challenge",
+        "highScore": "High Score",
+        "howToPlay": "How to Play",
+        "rule1Title": "Time Limit",
+        "rule1Desc": "Answer the questions within {{timeLimit}} minutes.",
+        "rule2Title": "Score",
+        "rule2Desc": "You get 1 point for each correct answer.",
+        "rule3Title": "Goal",
+        "rule3Desc": "Finish all questions before the time runs out!",
+        "start": "Start Playing",
+        "expertWarning": {
+            "title": "Expert Mode Warning!",
+            "desc": "Questions will be more difficult and the time limit is reduced. Are you ready?"
+        },
+        "difficulty": {
+            "title": "Select Difficulty",
+            "easy": "Easy",
+            "medium": "Medium",
+            "hard": "Hard",
+            "easyDesc": "10 questions / 10 minutes. Great for beginners.",
+            "mediumDesc": "15 questions / 15 minutes. A balanced challenge.",
+            "hardDesc": "20 questions / 15 minutes. For the true waste experts!"
+        },
+        "question": "Question",
+        "score": "Score",
+        "correct": "Correct!",
+        "incorrect": "Incorrect!",
+        "nextQuestion": "Next Question",
+        "seeResults": "See Results",
+        "playAgain": "Play Again",
+        "result": {
+            "newHighScore": "New High Score!",
+            "timeUp": "Time's Up!",
+            "completed": "Challenge Complete!",
+            "thanks": "Thanks for playing, {{name}}!",
+            "timeUpMessage": "Unfortunately, you didn't finish in time.",
+            "feedback1": "Keep trying!",
+            "feedback2": "Good knowledge!",
+            "feedback3": "Excellent! You're a recycling expert!"
+        }
+    },
+    "chat": {
+        "back": "Back",
+        "title": "Ask AI about \"{{item}}\"",
+        "placeholder": "Type your question...",
+        "send": "Send message",
+        "greeting": "Hello! Do you have any more questions about \"{{item}}\"? I'm here to help.",
+        "error": "Sorry, I'm having trouble at the moment. Please try again later."
+    },
+    "feedback": {
+        "title": "Report Incorrect Analysis",
+        "item": "Item: {{item}}",
+        "whatWasWrong": "What was incorrect?",
+        "options": {
+            "type": "Wrong waste type",
+            "material": "Wrong material",
+            "recyclable": "Wrong recyclable status",
+            "instructions": "Wrong disposal instructions",
+            "other": "Other"
+        },
+        "comments": "Additional comments (optional)",
+        "commentsPlaceholder": "Provide more details...",
+        "submit": "Submit Feedback",
+        "success": "Thank you for your feedback! We will review it to improve the application."
+    },
+    "settings": {
+        "close": "Close settings",
+        "title": "Settings",
+        "personalInfo": "Personal Information",
+        "appearance": "Appearance",
+        "language": "Language",
+        "expertMode": {
+            "title": "Expert Mode",
+            "enable": "Enable Expert Mode",
+            "description": "Get harder questions, more detailed explanations, and a timed search challenge."
+        },
+        "camera": {
+            "title": "Camera",
+            "scanInterval": "Auto-scan frequency",
+            "seconds": "{{count}} seconds",
+            "soundEffects": "Auto-scan sound effects",
+            "soundEffectsDescription": "Play a sound when an item is captured in auto-scan mode."
+        },
+        "notifications": {
+            "title": "Notifications & Reminders",
+            "enable": "Enable daily reminder",
+            "description": "Get a daily notification to remind you to sort your waste.",
+            "time": "Reminder time",
+            "notSupported": "This browser does not support desktop notifications.",
+            "denied": "Notification permission was denied. To use this feature, please enable notifications in your browser settings.",
+            "enabledTitle": "Reminders Enabled!",
+            "enabledBody": "You will now receive daily reminders to sort your waste."
+        },
+        "data": {
+            "title": "Data",
+            "reset": "Reset all data",
+            "resetDescription": "This will clear all your settings and personal information.",
+            "resetButton": "Reset",
+            "confirmReset": "Are you sure you want to delete all data? This action cannot be undone."
+        },
+        "genders": "Male,Female,Other",
+        "salutations": "Mr,Ms,Friend"
+    },
+    "setup": {
+        "step": "Step {{current}} of {{total}}",
+        "name": {
+            "title": "First off,",
+            "subtitle": "What's your name?",
+            "placeholder": "Enter your name..."
+        },
+        "device": {
+            "title": "What device are you using?",
+            "subtitle": "This choice will help optimize the camera interface for you.",
+            "computer": "Computer",
+            "computerDesc": "Desktop or Laptop",
+            "phone": "Phone",
+            "phoneDesc": "Smartphone or Tablet"
+        },
+        "details": {
+            "name": "Name",
+            "device": "Device",
+            "gender": "Gender",
+            "dob": "Date of Birth",
+            "salutation": "Salutation"
+        },
+        "finish": {
+            "title": "All set!",
+            "subtitle": "Thank you for providing your information. We hope you have a great experience."
+        },
+        "error": {
+            "name": "Please enter your name.",
+            "device": "Please select a device type.",
+            "info": "Please fill in all the information.",
+            "dobFormat": "Please enter the full date of birth in DD/MM/YYYY format.",
+            "dobInvalid": "Invalid date of birth. Please check again.",
+            "dobPast": "Year of birth must be 1900 or later.",
+            "dobFuture": "Date of birth cannot be in the future."
+        }
+    },
+    "theme": {
+        "select": "Select theme",
+        "theme": "Theme"
+    },
+    "footer": {
+        "copyright": "Copyright by Nguyễn Khôi Nguyên, created for internal usage and users, please don't distribute this website.",
+        "contact": "Contact me at my info page."
+    },
+    "common": {
+        "next": "Next",
+        "back": "Back",
+        "finish": "Finish",
+        "save": "Save Changes",
+        "cancel": "Cancel",
+        "retry": "Retry"
+    },
+    "error": {
+        "title": "An Error Occurred",
+        "analysis": "Could not analyze the image. Please try again.",
+        "search": "Could not search for information. Please try again.",
+        "quiz": "Could not generate questions. Please try again later."
+    }
+}
