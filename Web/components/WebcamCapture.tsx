@@ -15,10 +15,29 @@ interface WebcamCaptureProps {
   error: string | null;
   deviceType: DeviceType;
   autoScanInterval: number;
+  soundEffects: boolean;
   t: (key: string, options?: { [key: string]: any }) => string;
 }
 
 const MAX_DIMENSION = 640; // Max width or height for analysis
+
+const playCaptureSound = () => {
+    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    if (!audioContext) return;
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(880, audioContext.currentTime); // A5 note
+    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+    
+    gainNode.gain.exponentialRampToValueAtTime(0.00001, audioContext.currentTime + 0.1);
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.1);
+};
 
 const CameraStatusIndicator: React.FC<{
     isCameraReady: boolean;
@@ -45,7 +64,7 @@ const CameraStatusIndicator: React.FC<{
     );
 };
 
-export const WebcamCapture: React.FC<WebcamCaptureProps> = ({ onCapture, isAutoMode, setIsAutoMode, isAnalyzing, error: appError, deviceType, autoScanInterval, t }) => {
+export const WebcamCapture: React.FC<WebcamCaptureProps> = ({ onCapture, isAutoMode, setIsAutoMode, isAnalyzing, error: appError, deviceType, autoScanInterval, soundEffects, t }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -169,9 +188,12 @@ export const WebcamCapture: React.FC<WebcamCaptureProps> = ({ onCapture, isAutoM
         const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
         const base64 = dataUrl.split(',')[1];
         onCapture(base64);
+        if (isAutoMode && soundEffects) {
+            playCaptureSound();
+        }
       }
     }
-  }, [onCapture, isAnalyzing, isCameraPaused]);
+  }, [onCapture, isAnalyzing, isCameraPaused, isAutoMode, soundEffects]);
 
   useEffect(() => {
     if (intervalRef.current) {

@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { SearchIcon } from './icons/SearchIcon';
 import { WarningIcon } from './icons/WarningIcon';
+import { XCircleIcon } from './icons/XCircleIcon';
+import { BroomIcon } from './icons/BroomIcon';
 
 interface SearchComponentProps {
   onSearch: (query: string) => void;
@@ -8,7 +10,6 @@ interface SearchComponentProps {
   t: (key: string, options?: { [key: string]: string | number }) => string;
 }
 
-// Fix: Cannot find name 'none', 'currentColor', 'round' due to invalid SVG syntax.
 const ClockIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
     <circle cx="12" cy="12" r="10"/>
@@ -20,8 +21,10 @@ const SEARCH_TIME_LIMIT = 15; // 15 seconds
 
 export const SearchComponent: React.FC<SearchComponentProps> = ({ onSearch, expertMode, t }) => {
   const [query, setQuery] = useState('');
-  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [activeSuggestions, setActiveSuggestions] = useState<string[]>([]);
+  const [isSuggestionsVisible, setIsSuggestionsVisible] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [timeLeft, setTimeLeft] = useState(SEARCH_TIME_LIMIT);
   const timerRef = useRef<number | null>(null);
 
@@ -30,7 +33,7 @@ export const SearchComponent: React.FC<SearchComponentProps> = ({ onSearch, expe
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
-        setSuggestions([]);
+        setIsSuggestionsVisible(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -63,7 +66,7 @@ export const SearchComponent: React.FC<SearchComponentProps> = ({ onSearch, expe
   const handleSearch = () => {
     if (query.trim()) {
       onSearch(query.trim());
-      setSuggestions([]);
+      setIsSuggestionsVisible(false);
       if (timerRef.current) clearInterval(timerRef.current);
     }
   };
@@ -92,9 +95,11 @@ export const SearchComponent: React.FC<SearchComponentProps> = ({ onSearch, expe
       const filteredSuggestions = commonWasteItems.filter(item =>
         item.toLowerCase().includes(value.toLowerCase())
       );
-      setSuggestions(filteredSuggestions);
+      setActiveSuggestions(filteredSuggestions);
+      setIsSuggestionsVisible(true);
     } else {
-      setSuggestions([]);
+      setActiveSuggestions([]);
+      setIsSuggestionsVisible(false);
       if (timerRef.current) {
           clearInterval(timerRef.current);
           timerRef.current = null;
@@ -105,9 +110,20 @@ export const SearchComponent: React.FC<SearchComponentProps> = ({ onSearch, expe
 
   const handleSuggestionClick = (suggestion: string) => {
     setQuery(suggestion);
-    setSuggestions([]);
+    setIsSuggestionsVisible(false);
     onSearch(suggestion);
     if (timerRef.current) clearInterval(timerRef.current);
+  };
+  
+  const handleRemoveSuggestion = (suggestionToRemove: string) => {
+    setActiveSuggestions(prev => prev.filter(s => s !== suggestionToRemove));
+  };
+
+  const handleClearAll = () => {
+    setQuery('');
+    setActiveSuggestions([]);
+    setIsSuggestionsVisible(false);
+    inputRef.current?.focus();
   };
 
   const isTimerActive = expertMode && timerRef.current != null;
@@ -118,24 +134,30 @@ export const SearchComponent: React.FC<SearchComponentProps> = ({ onSearch, expe
       <p className="mt-2 text-text-muted">{t('search.subtitle')}</p>
       
       {expertMode && (
-         <div className="mt-4 p-3 bg-card/50 backdrop-blur-lg border border-white/10 rounded-2xl shadow-neumorphic flex items-center justify-center gap-3 text-sm animate-fade-in">
-             <div className="p-2 bg-card rounded-full shadow-neumorphic-inset flex-shrink-0">
+         <div className="mt-4 p-3 bg-card/50 backdrop-blur-lg border border-white/10 rounded-2xl shadow-neumorphic flex items-start gap-3 text-sm animate-fade-in text-left">
+             <div className="p-2 bg-card rounded-full shadow-neumorphic-inset flex-shrink-0 mt-1">
                 <WarningIcon className="w-5 h-5 text-yellow-500 animate-glow-yellow" />
             </div>
-            <p className="font-semibold text-text-main">{t('search.expertNote')}</p>
+            <div>
+                <p className="font-bold text-text-main">{t('search.expertNote.title')}</p>
+                <p className="text-text-muted mt-1 text-xs">{t('search.expertNote.description')}</p>
+            </div>
          </div>
       )}
 
       <div ref={wrapperRef} className="mt-8 relative">
         <form onSubmit={handleSubmit} className="flex items-center gap-2">
           <div className="relative flex-grow">
+            <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted pointer-events-none" />
             <input
+              ref={inputRef}
               type="text"
               value={query}
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
+              onFocus={() => { if(query) setIsSuggestionsVisible(true) }}
               placeholder={t('search.placeholder')}
-              className={`w-full px-4 py-3 bg-card border border-border-color text-text-main rounded-full focus:ring-2 focus:ring-brand-green focus:border-transparent outline-none transition-shadow ${isTimerActive ? 'pr-12' : ''}`}
+              className={`w-full pl-11 pr-4 py-3 bg-card border border-border-color text-text-main rounded-full focus:ring-2 focus:ring-brand-green focus:border-transparent outline-none transition-shadow ${isTimerActive ? 'pr-12' : ''}`}
               aria-label={t('search.ariaLabel')}
               autoComplete="off"
             />
@@ -158,21 +180,33 @@ export const SearchComponent: React.FC<SearchComponentProps> = ({ onSearch, expe
         {isTimerActive && timeLeft === 0 && (
             <p className="text-red-500 font-semibold mt-2 text-sm">{t('search.timeUp')}</p>
         )}
-        {suggestions.length > 0 && (
-          <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border-color rounded-lg shadow-xl z-10 max-h-60 overflow-y-auto animate-fade-in" style={{ animationDuration: '150ms' }}>
-            <ul className="text-left divide-y divide-border-color">
-              {suggestions.map((suggestion, index) => (
+        {isSuggestionsVisible && activeSuggestions.length > 0 && (
+          <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border-color rounded-xl shadow-2xl z-10 max-h-60 overflow-y-auto animate-slide-in-down" style={{ animationDuration: '200ms' }}>
+            <ul className="text-left divide-y divide-border-color/50 p-1">
+              {activeSuggestions.map((suggestion, index) => (
                 <li
-                  key={index}
-                  className="px-4 py-3 cursor-pointer hover:bg-background transition-all duration-200 hover:pl-6 text-text-main"
-                  onClick={() => handleSuggestionClick(suggestion)}
-                  role="option"
-                  aria-selected="false"
+                  key={`${suggestion}-${index}`}
+                  className="flex items-center justify-between px-3 py-2.5 cursor-pointer hover:bg-background rounded-lg transition-all duration-200 text-text-main group animate-slide-in-left"
+                   style={{ animationDelay: `${index * 50}ms`, opacity: 0 }}
                 >
-                  {suggestion}
+                  <span onClick={() => handleSuggestionClick(suggestion)} className="flex-grow">{suggestion}</span>
+                  <button onClick={() => handleRemoveSuggestion(suggestion)} className="p-1 rounded-full text-text-muted hover:bg-red-100 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity" aria-label={`${t('search.clear')} ${suggestion}`}>
+                    <XCircleIcon className="w-4 h-4" />
+                  </button>
                 </li>
               ))}
             </ul>
+             {query.trim() && (
+                 <div className="p-2 border-t border-border-color/50">
+                    <button
+                        onClick={handleClearAll}
+                        className="w-full flex items-center justify-center gap-2 text-sm text-text-muted font-semibold p-2 rounded-lg hover:bg-background transition-colors"
+                    >
+                        <BroomIcon className="w-4 h-4"/>
+                        {t('search.clearAll')}
+                    </button>
+                 </div>
+             )}
           </div>
         )}
       </div>

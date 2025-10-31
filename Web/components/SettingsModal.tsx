@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import type { UserProfile, AppSettings, Gender, Salutation, Theme, Language } from '../types';
+import type { UserProfile, AppSettings, Gender, Salutation, Theme, Language, DeviceType } from '../types';
 import { BackIcon } from './icons/BackIcon';
 import { ThemeSwitcher } from './ThemeSwitcher';
-// 🔥 FIX 1: THAY THẾ IMPORT COMPONENT BẰNG IMPORT ẢNH TĨNH (.png)
+// 🔥 FIX 1: LOẠI BỎ IMPORT COMPONENT TSX GỐC và chỉ dùng import file ảnh PNG
+// LƯU Ý: Đảm bảo file VietnamFlagIcon.png và UKFlagIcon.png tồn tại trong thư mục ./icons/
 import VietnamFlag from './icons/VietnamFlagIcon.png'; 
 import UKFlag from './icons/UKFlagIcon.png'; 
+// Thêm các icon SVG (vì chúng vẫn là component TSX)
+import { ComputerIcon } from './icons/ComputerIcon';
+import { PhoneIcon } from './icons/PhoneIcon';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -42,7 +46,6 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
     if(wasVi === isVi) return;
 
-    // Logic chuyển đổi ngôn ngữ
     const genderMap: { [key in Gender]?: Gender } = {
         'Nam': 'Male', 'Nữ': 'Female', 'Khác': 'Other',
         'Male': 'Nam', 'Female': 'Nữ', 'Other': 'Khác'
@@ -55,9 +58,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     setCurrentSettings(s => ({ ...s, language: lang }));
     setCurrentProfile(p => ({
         ...p,
-        // Cần đảm bảo logic dịch ngược của bạn hoạt động đúng
-        gender: p.gender ? (wasVi ? genderMap[p.gender] || p.gender : genderMap[p.gender] || p.gender) : p.gender,
-        salutation: p.salutation ? (wasVi ? salutationMap[p.salutation] || p.salutation : salutationMap[p.salutation] || p.salutation) : p.salutation
+        gender: p.gender ? genderMap[p.gender] || p.gender : p.gender,
+        salutation: p.salutation ? salutationMap[p.salutation] || p.salutation : p.salutation
     }));
   };
 
@@ -81,6 +83,45 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     if (numbers.length > 4) formatted = `${numbers.slice(0, 2)}/${numbers.slice(2, 4)}/${numbers.slice(4, 8)}`;
     
     setCurrentProfile(p => ({ ...p, dob: formatted }));
+  };
+  
+  const handleReminderToggle = async () => {
+    // Toggling from OFF to ON
+    if (!currentSettings.enableReminder) {
+        // TẠM THỜI DÙNG alert() VÀ window.confirm() cho chức năng này
+        if (!('Notification' in window)) {
+            alert(t('settings.notifications.notSupported'));
+            return;
+        }
+
+        if (Notification.permission === 'granted') {
+            setCurrentSettings(s => ({ ...s, enableReminder: true }));
+            new Notification(t('settings.notifications.enabledTitle'), {
+                body: t('settings.notifications.enabledBody'),
+                icon: '/vite.svg' 
+            });
+        } else if (Notification.permission === 'denied') {
+            alert(t('settings.notifications.denied'));
+        } else { // 'default' state
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    setCurrentSettings(s => ({ ...s, enableReminder: true }));
+                    new Notification(t('settings.notifications.enabledTitle'), {
+                        body: t('settings.notifications.enabledBody'),
+                        icon: '/vite.svg' 
+                    });
+                } else {
+                    alert(t('settings.notifications.denied'));
+                }
+            } catch (error) {
+                console.error('Error requesting notification permission:', error);
+            }
+        }
+    } else {
+        // Toggling from ON to OFF
+        setCurrentSettings(s => ({ ...s, enableReminder: false }));
+    }
   };
 
   useEffect(() => {
@@ -125,7 +166,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         </header>
 
         <div className="flex-grow p-6 overflow-y-auto space-y-8">
-          <section>
+          <section className="animate-slide-in-up" style={{ animationDelay: '50ms' }}>
             <h3 className="text-xl font-bold text-brand-green-dark font-display">{t('settings.personalInfo')}</h3>
             <div className="mt-4 space-y-4">
               <div>
@@ -137,6 +178,19 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   onChange={(e) => setCurrentProfile(p => ({ ...p, name: e.target.value }))}
                   className="w-full mt-1 px-4 py-2 bg-background border border-border-color text-text-main rounded-lg focus:ring-2 focus:ring-brand-green focus:border-transparent outline-none"
                 />
+              </div>
+               <div>
+                <label className="font-semibold text-text-muted text-sm">{t('setup.details.device')}</label>
+                <div className="mt-2 flex gap-3">
+                    <ChoiceButton value={'computer'} selectedValue={currentProfile.deviceType} onClick={() => setCurrentProfile(p => ({...p, deviceType: 'computer' }))}>
+                        <ComputerIcon className="w-5 h-5" />
+                        {t('setup.device.computer')}
+                    </ChoiceButton>
+                    <ChoiceButton value={'phone'} selectedValue={currentProfile.deviceType} onClick={() => setCurrentProfile(p => ({...p, deviceType: 'phone' }))}>
+                        <PhoneIcon className="w-5 h-5" />
+                        {t('setup.device.phone')}
+                    </ChoiceButton>
+                </div>
               </div>
                <div>
                 <label className="font-semibold text-text-muted text-sm">{t('setup.details.gender')}</label>
@@ -166,7 +220,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             </div>
           </section>
 
-          <section>
+          <section className="animate-slide-in-up" style={{ animationDelay: '100ms' }}>
             <h3 className="text-xl font-bold text-brand-green-dark font-display">{t('settings.appearance')}</h3>
             <div className="mt-4 flex items-center justify-between bg-background/50 p-3 rounded-lg">
                 <label className="font-semibold text-text-main">{t('theme.theme')}</label>
@@ -174,7 +228,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             </div>
              <div className="mt-4 flex items-center justify-between bg-background/50 p-3 rounded-lg">
                 <label className="font-semibold text-text-main">{t('settings.language')}</label>
-                <div className="flex items-center gap-1"> {/* 🔥 FIX 2: Giảm gap từ gap-2 xuống gap-1 */}
+                <div className="flex items-center gap-1"> 
                     
                     {/* Nút Vietnam (Sử dụng <img>) */}
                     <button 
@@ -185,7 +239,6 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                             : 'opacity-70 hover:opacity-100 hover:bg-white/10'
                         }`}
                     >
-                        {/* 🔥 FIX 3: SỬ DỤNG THẺ <img> */}
                         <img src={VietnamFlag} alt="Vietnam Flag" className="w-8 h-6 rounded-sm shadow-sm" />
                     </button>
                     
@@ -198,14 +251,74 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                             : 'opacity-70 hover:opacity-100 hover:bg-white/10'
                         }`}
                     >
-                        {/* 🔥 FIX 4: SỬ DỤNG THẺ <img> */}
                         <img src={UKFlag} alt="UK Flag" className="w-8 h-6 rounded-sm shadow-sm" />
                     </button>
                 </div>
             </div>
           </section>
 
-          <section>
+          <section className="animate-slide-in-up" style={{ animationDelay: '150ms' }}>
+            <h3 className="text-xl font-bold text-brand-green-dark font-display">{t('settings.notifications.title')}</h3>
+            <div className="mt-4 bg-background/50 p-4 rounded-lg space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <label htmlFor="reminder-toggle" className="font-semibold text-text-main cursor-pointer">{t('settings.notifications.enable')}</label>
+                  <p className="text-sm text-text-muted mt-1">{t('settings.notifications.description')}</p>
+                </div>
+                <button
+                  id="reminder-toggle" role="switch" aria-checked={currentSettings.enableReminder}
+                  onClick={handleReminderToggle}
+                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-green focus:ring-offset-2 ${currentSettings.enableReminder ? 'bg-brand-green' : 'bg-text-muted/40'}`}
+                >
+                  <span aria-hidden="true" className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${currentSettings.enableReminder ? 'translate-x-5' : 'translate-x-0'}`} />
+                </button>
+              </div>
+              {currentSettings.enableReminder && (
+                <div className="animate-fade-in pt-4 border-t border-border-color/50">
+                  <label htmlFor="reminder-time" className="font-semibold text-text-main">{t('settings.notifications.time')}</label>
+                  <input
+                    id="reminder-time"
+                    type="time"
+                    value={currentSettings.reminderTime}
+                    onChange={(e) => setCurrentSettings(s => ({ ...s, reminderTime: e.target.value }))}
+                    className="w-full mt-1 px-4 py-2 bg-card border border-border-color text-text-main rounded-lg focus:ring-2 focus:ring-brand-green focus:border-transparent outline-none"
+                  />
+                </div>
+              )}
+            </div>
+          </section>
+
+          <section className="animate-slide-in-up" style={{ animationDelay: '200ms' }}>
+            <h3 className="text-xl font-bold text-brand-green-dark font-display">{t('settings.camera.title')}</h3>
+            <div className="mt-4 bg-background/50 p-4 rounded-lg space-y-4">
+              <div>
+                <label htmlFor="scanInterval" className="font-semibold text-text-main">
+                    {t('settings.camera.scanInterval')}: <span className="text-brand-green-dark font-bold">{t('settings.camera.seconds', { count: (currentSettings.autoScanInterval / 1000).toFixed(1) })}</span>
+                </label>
+                <input
+                    id="scanInterval" type="range" min="1000" max="5000" step="500"
+                    value={currentSettings.autoScanInterval}
+                    onChange={(e) => setCurrentSettings(s => ({ ...s, autoScanInterval: Number(e.target.value) }))}
+                    className="w-full mt-2 h-2 bg-border-color rounded-lg appearance-none cursor-pointer"
+                />
+              </div>
+              <div className="flex items-center justify-between pt-4 border-t border-border-color/50">
+                <div>
+                  <label htmlFor="sound-toggle" className="font-semibold text-text-main cursor-pointer">{t('settings.camera.soundEffects')}</label>
+                  <p className="text-sm text-text-muted mt-1">{t('settings.camera.soundEffectsDescription')}</p>
+                </div>
+                <button
+                    id="sound-toggle" role="switch" aria-checked={currentSettings.soundEffects}
+                    onClick={() => setCurrentSettings(s => ({ ...s, soundEffects: !s.soundEffects }))}
+                    className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-green focus:ring-offset-2 ${currentSettings.soundEffects ? 'bg-brand-green' : 'bg-text-muted/40'}`}
+                >
+                    <span aria-hidden="true" className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${currentSettings.soundEffects ? 'translate-x-5' : 'translate-x-0'}`} />
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section className="animate-slide-in-up" style={{ animationDelay: '250ms' }}>
             <h3 className="text-xl font-bold text-brand-green-dark font-display">{t('settings.expertMode.title')}</h3>
             <div className="mt-4 bg-background/50 p-4 rounded-lg">
                 <div className="flex items-center justify-between">
@@ -224,22 +337,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             </div>
           </section>
 
-          <section>
-            <h3 className="text-xl font-bold text-brand-green-dark font-display">{t('settings.camera.title')}</h3>
-            <div className="mt-4 bg-background/50 p-3 rounded-lg">
-                <label htmlFor="scanInterval" className="font-semibold text-text-main">
-                    {t('settings.camera.scanInterval')}: <span className="text-brand-green-dark font-bold">{t('settings.camera.seconds', { count: (currentSettings.autoScanInterval / 1000).toFixed(1) })}</span>
-                </label>
-                <input
-                    id="scanInterval" type="range" min="1000" max="5000" step="500"
-                    value={currentSettings.autoScanInterval}
-                    onChange={(e) => setCurrentSettings(s => ({ ...s, autoScanInterval: Number(e.target.value) }))}
-                    className="w-full mt-2 h-2 bg-border-color rounded-lg appearance-none cursor-pointer"
-                />
-            </div>
-          </section>
-
-          <section>
+          <section className="animate-slide-in-up" style={{ animationDelay: '300ms' }}>
             <h3 className="text-xl font-bold text-brand-green-dark font-display">{t('settings.data.title')}</h3>
             <div className="mt-4 bg-background/50 p-4 rounded-lg flex items-center justify-between">
                 <div>

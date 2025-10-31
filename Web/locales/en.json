@@ -53,12 +53,17 @@
     "search": {
         "title": "Search for Waste Information",
         "subtitle": "Enter the name of a waste item (e.g., \"milk carton\", \"AA battery\") to see disposal instructions and an illustration.",
-        "expertNote": "Expert Mode: Search quickly for the best results!",
+        "expertNote": {
+            "title": "Expert Mode Enabled!",
+            "description": "Request speed is increased for faster searching. It is recommended not to toggle this feature too frequently to prevent potential issues."
+        },
         "placeholder": "Enter waste type...",
         "ariaLabel": "Waste type name",
         "searchButton": "Search",
         "timeUp": "Search time is up!",
-        "suggestions": "Plastic bottle, Aluminum can, Newspaper, Cardboard box, AA battery, Light bulb, Plastic bag, Milk carton, Beer can, Glass bottle, Old electronics, Food container, Old clothes, Broken wood, Organic waste, Eggshells, Dry leaves, Styrofoam box, Phone battery, Old charger"
+        "suggestions": "Plastic bottle, Aluminum can, Newspaper, Cardboard box, AA battery, Light bulb, Plastic bag, Milk carton, Beer can, Glass bottle, Old electronics, Food container, Old clothes, Broken wood, Organic waste, Eggshells, Dry leaves, Styrofoam box, Phone battery, Old charger",
+        "clear": "Clear",
+        "clearAll": "Clear all suggestions"
     },
     "result": {
         "recyclable": "Recyclable",
@@ -116,6 +121,7 @@
     },
     "game": {
         "title": "Waste Sorting Challenge",
+        "highScore": "High Score",
         "howToPlay": "How to Play",
         "rule1Title": "Time Limit",
         "rule1Desc": "Answer the questions within {{timeLimit}} minutes.",
@@ -145,6 +151,7 @@
         "seeResults": "See Results",
         "playAgain": "Play Again",
         "result": {
+            "newHighScore": "New High Score!",
             "timeUp": "Time's Up!",
             "completed": "Challenge Complete!",
             "thanks": "Thanks for playing, {{name}}!",
@@ -192,7 +199,19 @@
         "camera": {
             "title": "Camera",
             "scanInterval": "Auto-scan frequency",
-            "seconds": "{{count}} seconds"
+            "seconds": "{{count}} seconds",
+            "soundEffects": "Auto-scan sound effects",
+            "soundEffectsDescription": "Play a sound when an item is captured in auto-scan mode."
+        },
+        "notifications": {
+            "title": "Notifications & Reminders",
+            "enable": "Enable daily reminder",
+            "description": "Get a daily notification to remind you to sort your waste.",
+            "time": "Reminder time",
+            "notSupported": "This browser does not support desktop notifications.",
+            "denied": "Notification permission was denied. To use this feature, please enable notifications in your browser settings.",
+            "enabledTitle": "Reminders Enabled!",
+            "enabledBody": "You will now receive daily reminders to sort your waste."
         },
         "data": {
             "title": "Data",
@@ -245,7 +264,8 @@
         "theme": "Theme"
     },
     "footer": {
-        "copyright": "Copyright by Nguyễn Khôi Nguyên, created for internal usage and users, please don't distribute this website."
+        "copyright": "Copyright by Nguyễn Khôi Nguyên, created for internal usage and users, please don't distribute this website.",
+        "contact": "Contact me at my info page."
     },
     "common": {
         "next": "Next",

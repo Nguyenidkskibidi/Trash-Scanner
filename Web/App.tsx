@@ -10,7 +10,7 @@ import { ChatComponent } from './components/ChatComponent';
 import { SettingsModal } from './components/SettingsModal';
 import { FeedbackModal } from './components/FeedbackModal';
 import { searchWasteInfo, analyzeImage, continueChat } from './services/geminiService';
-import type { WasteInfo, ChatMessage, UserProfile, AppSettings, Language, Feedback } from './types';
+import type { WasteInfo, ChatMessage, UserProfile, AppSettings, Language, Feedback, DeviceType } from './types';
 import { CameraIcon } from './components/icons/CameraIcon';
 import { SearchIcon } from './components/icons/SearchIcon';
 import { GameIcon } from './components/icons/GameIcon';
@@ -34,6 +34,9 @@ const defaultSettings: AppSettings = {
   language: 'vi',
   autoScanInterval: 2000,
   expertMode: false,
+  enableReminder: false,
+  reminderTime: '09:00',
+  soundEffects: true,
 };
 
 
@@ -70,8 +73,9 @@ const App: React.FC = () => {
         const savedSettings = localStorage.getItem('app-settings');
         if (savedSettings) {
             const parsedSettings = JSON.parse(savedSettings);
-             if (['default', 'ocean', 'sunset', 'dark'].includes(parsedSettings.theme)) {
-                setAppSettings(parsedSettings);
+            const mergedSettings = { ...defaultSettings, ...parsedSettings };
+             if (['default', 'ocean', 'sunset', 'dark'].includes(mergedSettings.theme)) {
+                setAppSettings(mergedSettings);
              }
         }
     } catch (e) {
@@ -172,7 +176,7 @@ const App: React.FC = () => {
       handleReset();
       setViewMode(newMode);
       setAnimationClass(direction === 'left' ? 'animate-slide-in-right' : 'animate-slide-in-left');
-    }, 400);
+    }, 500);
   };
 
   const handleOpenChat = (item: WasteInfo) => {
@@ -291,7 +295,7 @@ const App: React.FC = () => {
       case 'search':
         return <SearchComponent onSearch={handleSearch} expertMode={appSettings.expertMode} t={t} />;
       case 'game':
-        return <GameComponent userName={userProfile.name} expertMode={appSettings.expertMode} t={t} language={appSettings.language} />;
+        return <GameComponent userName={userProfile.name} expertMode={appSettings.expertMode} t={t} language={appSettings.language} deviceType={userProfile.deviceType!} />;
       case 'camera':
       default:
         return (
@@ -303,6 +307,7 @@ const App: React.FC = () => {
             error={error}
             deviceType={userProfile.deviceType!}
             autoScanInterval={appSettings.autoScanInterval}
+            soundEffects={appSettings.soundEffects}
             t={t}
           />
         );
@@ -384,7 +389,7 @@ const App: React.FC = () => {
         />
         <main className="mt-8">
           <ViewSwitcher />
-          <div className={`bg-card/70 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-4 sm:p-6 lg:p-8 flex items-center justify-center min-h-[550px] overflow-hidden ${animationClass}`}>
+          <div className={`bg-card/70 backdrop-blur-xl rounded-3xl shadow-2xl p-4 sm:p-6 lg:p-8 flex items-center justify-center min-h-[550px] overflow-hidden border animate-border-glow ${animationClass}`}>
             {renderContent()}
           </div>
         </main>

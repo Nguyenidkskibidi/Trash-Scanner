@@ -47,6 +47,9 @@ export interface AppSettings {
     language: Language;
     autoScanInterval: number; // in milliseconds
     expertMode: boolean;
+    enableReminder: boolean;
+    reminderTime: string; // e.g., "09:00"
+    soundEffects: boolean;
 }
 
 export interface Feedback {

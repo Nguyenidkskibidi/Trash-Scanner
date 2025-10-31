@@ -53,12 +53,17 @@
     "search": {
         "title": "Tìm kiếm Thông tin Rác thải",
         "subtitle": "Nhập tên một loại rác (ví dụ: \"hộp sữa\", \"pin AA\") để xem hướng dẫn xử lý và hình minh họa.",
-        "expertNote": "Chế độ Chuyên gia: Tìm kiếm nhanh để có kết quả tốt nhất!",
+        "expertNote": {
+            "title": "Chế độ Chuyên gia đã được bật!",
+            "description": "Tốc độ gửi yêu cầu tới AI sẽ được tăng lên để tìm kiếm nhanh hơn. Khuyến nghị không bật/tắt tính năng này quá thường xuyên để tránh các lỗi không mong muốn."
+        },
         "placeholder": "Nhập loại rác...",
         "ariaLabel": "Tên loại rác",
         "searchButton": "Tìm kiếm",
         "timeUp": "Hết thời gian tìm kiếm!",
-        "suggestions": "Chai nhựa, Lon nhôm, Báo cũ, Hộp carton, Pin AA, Bóng đèn, Túi nilon, Hộp sữa, Lon bia, Chai thủy tinh, Đồ điện tử cũ, Hộp đựng thức ăn, Quần áo cũ, Gỗ vụn, Rác hữu cơ, Vỏ trứng, Lá khô, Hộp xốp, Pin điện thoại, Sạc cũ"
+        "suggestions": "Chai nhựa, Lon nhôm, Báo cũ, Hộp carton, Pin AA, Bóng đèn, Túi nilon, Hộp sữa, Lon bia, Chai thủy tinh, Đồ điện tử cũ, Hộp đựng thức ăn, Quần áo cũ, Gỗ vụn, Rác hữu cơ, Vỏ trứng, Lá khô, Hộp xốp, Pin điện thoại, Sạc cũ",
+        "clear": "Xóa",
+        "clearAll": "Xóa tất cả gợi ý"
     },
     "result": {
         "recyclable": "Có thể tái chế",
@@ -116,6 +121,7 @@
     },
     "game": {
         "title": "Thử thách Phân loại Rác",
+        "highScore": "Điểm Cao",
         "howToPlay": "Cách chơi",
         "rule1Title": "Giới hạn thời gian",
         "rule1Desc": "Trả lời các câu hỏi trong vòng {{timeLimit}} phút.",
@@ -145,6 +151,7 @@
         "seeResults": "Xem kết quả",
         "playAgain": "Chơi lại",
         "result": {
+            "newHighScore": "Điểm Cao Mới!",
             "timeUp": "Hết giờ!",
             "completed": "Hoàn thành Thử thách!",
             "thanks": "Cảm ơn bạn đã chơi, {{name}}!",
@@ -192,7 +199,19 @@
         "camera": {
             "title": "Camera",
             "scanInterval": "Tần suất quét tự động",
-            "seconds": "{{count}} giây"
+            "seconds": "{{count}} giây",
+            "soundEffects": "Hiệu ứng âm thanh quét tự động",
+            "soundEffectsDescription": "Phát âm thanh khi một vật phẩm được chụp trong chế độ quét tự động."
+        },
+        "notifications": {
+            "title": "Thông báo & Lời nhắc",
+            "enable": "Bật lời nhắc hàng ngày",
+            "description": "Nhận thông báo hàng ngày để nhắc bạn phân loại rác.",
+            "time": "Thời gian nhắc",
+            "notSupported": "Trình duyệt này không hỗ trợ thông báo trên màn hình nền.",
+            "denied": "Quyền thông báo đã bị từ chối. Để sử dụng tính năng này, vui lòng bật thông báo trong cài đặt trình duyệt của bạn.",
+            "enabledTitle": "Đã bật Lời nhắc!",
+            "enabledBody": "Bây giờ bạn sẽ nhận được lời nhắc hàng ngày để phân loại rác."
         },
         "data": {
             "title": "Dữ liệu",
@@ -245,7 +264,8 @@
         "theme": "Giao diện"
     },
     "footer": {
-        "copyright": "Bản quyền thuộc về Nguyễn Khôi Nguyên, tạo ra cho mục đích sử dụng nội bộ và người dùng, vui lòng không phân phối trang web này."
+        "copyright": "Bản quyền thuộc về Nguyễn Khôi Nguyên, tạo ra cho mục đích sử dụng nội bộ và người dùng, vui lòng không phân phối trang web này.",
+        "contact": "Liên hệ với tôi tại trang thông tin."
     },
     "common": {
         "next": "Tiếp",

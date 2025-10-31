@@ -49,7 +49,6 @@ const StatusIndicator: React.FC<{ status: RecyclableStatus, t: (key: string) => 
   );
 };
 
-// Fix: Expected 1 arguments, but got 2.
 const ResultCard: React.FC<{ item: WasteInfo; index: number; onStartChat: (item: WasteInfo) => void; onReportIncorrect: (item: WasteInfo) => void; t: (key: string, options?: { [key: string]: string | number }) => string; }> = ({ item, index, onStartChat, onReportIncorrect, t }) => (
     <div
       className="bg-card/60 backdrop-blur-md p-4 sm:p-6 rounded-2xl border border-white/20 shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 animate-slide-in-up"

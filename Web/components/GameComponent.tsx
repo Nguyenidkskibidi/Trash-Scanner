@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { generateQuizQuestions } from '../services/geminiService';
-import type { QuizQuestion, Language } from '../types';
+import type { QuizQuestion, Language, DeviceType } from '../types';
 import { Loader } from './Loader';
 import { GameIcon } from './icons/GameIcon';
 import { WarningIcon } from './icons/WarningIcon';
@@ -42,8 +42,9 @@ const StartScreen: React.FC<{
     expertMode: boolean;
     difficulty: Difficulty;
     setDifficulty: (d: Difficulty) => void;
+    highScore: number;
     t: (key: string, options?: { [key: string]: string | number }) => string;
-}> = ({ onStart, expertMode, difficulty, setDifficulty, t }) => {
+}> = ({ onStart, expertMode, difficulty, setDifficulty, highScore, t }) => {
     const difficulties: Difficulty[] = ['easy', 'medium', 'hard'];
 
     return (
@@ -52,6 +53,13 @@ const StartScreen: React.FC<{
               <GameIcon className="w-16 h-16 mx-auto text-brand-green animate-glow" />
             </div>
             <h2 className="mt-4 text-3xl font-bold text-gradient font-display">{t('game.title')}</h2>
+            
+            {highScore > 0 && (
+                 <div className="mt-2 inline-flex items-center justify-center gap-2 text-lg font-semibold text-text-muted animate-fade-in bg-card/50 px-4 py-2 rounded-full shadow-sm">
+                    <TrophyIcon className="w-5 h-5 text-yellow-500" />
+                    <span>{t('game.highScore')}: {highScore}</span>
+                </div>
+            )}
 
             {expertMode && (
                  <div className="mt-4 p-4 bg-card/50 backdrop-blur-lg border border-white/10 rounded-2xl shadow-neumorphic flex items-center gap-4 text-left animate-fade-in">
@@ -101,7 +109,7 @@ const StartScreen: React.FC<{
 };
 
 
-export const GameComponent: React.FC<{ userName: string, expertMode: boolean, t: (key: string, options?: { [key: string]: string | number }) => string; language: Language; }> = ({ userName, expertMode, t, language }) => {
+export const GameComponent: React.FC<{ userName: string, expertMode: boolean, t: (key: string, options?: { [key: string]: string | number }) => string; language: Language; deviceType: DeviceType; }> = ({ userName, expertMode, t, language, deviceType }) => {
     const [gameState, setGameState] = useState<GameState>('idle');
     const [questions, setQuestions] = useState<QuizQuestion[]>([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -113,6 +121,31 @@ export const GameComponent: React.FC<{ userName: string, expertMode: boolean, t:
     const [timeLeft, setTimeLeft] = useState(difficultySettings[difficulty].time);
     const [isTransitioningQuestion, setIsTransitioningQuestion] = useState(false);
     const [loadingStep, setLoadingStep] = useState(0);
+    const [highScore, setHighScore] = useState(0);
+    const [isNewHighScore, setIsNewHighScore] = useState(false);
+
+    useEffect(() => {
+        try {
+            const savedHighScore = localStorage.getItem('waste-classifier-highscore');
+            if (savedHighScore) {
+                setHighScore(parseInt(savedHighScore, 10));
+            }
+        } catch (e) {
+            console.error("Failed to parse high score from localStorage", e);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (gameState === 'finished') {
+            if (score > highScore) {
+                setIsNewHighScore(true);
+                setHighScore(score);
+                localStorage.setItem('waste-classifier-highscore', score.toString());
+            } else {
+                setIsNewHighScore(false);
+            }
+        }
+    }, [gameState, score, highScore]);
 
     useEffect(() => {
         let interval: number;
@@ -177,6 +210,11 @@ export const GameComponent: React.FC<{ userName: string, expertMode: boolean, t:
         setSelectedAnswer(answer);
         if (answer === questions[currentQuestionIndex].correctAnswer) {
             setScore(prev => prev + 1);
+        } else {
+            // Vibrate on wrong answer for phone
+            if (deviceType === 'phone' && navigator.vibrate) {
+                navigator.vibrate(500);
+            }
         }
     };
 
@@ -198,6 +236,7 @@ export const GameComponent: React.FC<{ userName: string, expertMode: boolean, t:
         setGameState('idle');
         setError(null);
         setTimeLeft(difficultySettings[difficulty].time);
+        setIsNewHighScore(false);
     }
     
     const renderFinishedScreen = () => {
@@ -224,6 +263,12 @@ export const GameComponent: React.FC<{ userName: string, expertMode: boolean, t:
                          <TrophyIcon className={`w-20 h-20 mx-auto ${scoreColor} animate-pop-in`} />
                     )}
                     <h2 className="mt-4 text-3xl font-bold text-text-main font-display animate-slide-in-up" style={{ animationDelay: '100ms' }}>{isTimeUp ? t('game.result.timeUp') : t('game.result.completed')}</h2>
+                    {isNewHighScore && (
+                        <div className="mt-4 p-2 bg-yellow-100 dark:bg-yellow-500/20 border-2 border-yellow-300 dark:border-yellow-400/30 rounded-lg animate-pop-in flex items-center justify-center gap-2">
+                            <TrophyIcon className="w-5 h-5 text-yellow-600 dark:text-yellow-300"/>
+                            <p className="font-bold text-yellow-700 dark:text-yellow-200">{t('game.result.newHighScore')}</p>
+                        </div>
+                    )}
                     <p className="mt-2 text-lg text-text-muted animate-slide-in-up" style={{ animationDelay: '200ms' }}>
                         {t('game.result.thanks', { name: userName })}
                     </p>
@@ -252,10 +297,10 @@ export const GameComponent: React.FC<{ userName: string, expertMode: boolean, t:
 
         return (
             <div key={currentQuestionIndex} className={`w-full max-w-3xl ${isTransitioningQuestion ? 'animate-slide-out-up' : 'animate-slide-in-down'}`}>
-                 <div className="w-full bg-text-main/10 rounded-full h-2.5 mb-2">
+                 <div className="w-full bg-text-main/10 rounded-full h-3 mb-2 shadow-inner">
                     <div
-                        className="bg-brand-green h-2.5 rounded-full transition-all duration-500 ease-out"
-                        style={{ width: `${((currentQuestionIndex) / questions.length) * 100}%` }}
+                        className="bg-gradient-to-r from-brand-green-light to-brand-green h-3 rounded-full transition-all duration-500 ease-out"
+                        style={{ width: `${(currentQuestionIndex / questions.length) * 100}%` }}
                     ></div>
                 </div>
                 <div className="flex justify-between items-center mb-4 text-sm font-semibold">
@@ -295,7 +340,7 @@ export const GameComponent: React.FC<{ userName: string, expertMode: boolean, t:
                             if (isCorrect) {
                                 stateClasses = 'bg-brand-green border-brand-green-dark text-white shadow-lg z-10 animate-pop';
                             } else if (isSelected && !isCorrect) {
-                                stateClasses = 'bg-red-500 border-red-700 text-white animate-shake-horizontal';
+                                 stateClasses = 'bg-red-500 border-red-700 text-white animate-shake-horizontal';
                             } else {
                                 stateClasses = 'bg-text-main/5 border-transparent text-text-muted opacity-50';
                             }
@@ -369,6 +414,7 @@ export const GameComponent: React.FC<{ userName: string, expertMode: boolean, t:
                     expertMode={expertMode}
                     difficulty={difficulty}
                     setDifficulty={setDifficulty}
+                    highScore={highScore}
                     t={t}
                 />;
         }

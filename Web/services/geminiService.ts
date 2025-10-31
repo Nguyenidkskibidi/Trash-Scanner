@@ -204,34 +204,26 @@ ONLY respond with a JSON array.`;
   const questionsWithImagePrompts = quizContent.filter(q => q.imagePrompt && q.imagePrompt.trim() !== '');
   const questionsWithoutImagePrompts = quizContent.filter(q => !q.imagePrompt || q.imagePrompt.trim() === '');
 
-  const imageUrls: string[] = [];
-  for (const question of questionsWithImagePrompts) {
-    try {
-      const imageResponse = await ai.models.generateImages({
+  // Concurrently generate images for all questions that have an image prompt to improve performance.
+  const imageGenerationPromises = questionsWithImagePrompts.map(question =>
+    ai.models.generateImages({
         model: 'imagen-4.0-generate-001',
         prompt: question.imagePrompt,
         config: {
-          numberOfImages: 1,
-          outputMimeType: 'image/png',
-          aspectRatio: '1:1',
+            numberOfImages: 1,
+            outputMimeType: 'image/png',
+            aspectRatio: '1:1',
         },
-      });
+    }).then(imageResponse => {
+        const base64ImageBytes = imageResponse.generatedImages?.[0]?.image?.imageBytes;
+        return base64ImageBytes ? `data:image/png;base64,${base64ImageBytes}` : '';
+    }).catch(err => {
+        console.error("Image generation failed for prompt:", question.imagePrompt, err);
+        return ''; // Return an empty string on failure
+    })
+  );
 
-      let base64ImageBytes = '';
-      if (imageResponse.generatedImages && imageResponse.generatedImages.length > 0 && imageResponse.generatedImages[0].image?.imageBytes) {
-          base64ImageBytes = imageResponse.generatedImages[0].image.imageBytes;
-      }
-      
-      if (base64ImageBytes) {
-          imageUrls.push(`data:image/png;base64,${base64ImageBytes}`);
-      } else {
-          imageUrls.push('');
-      }
-    } catch (err) {
-      console.error("Image generation failed for prompt:", question.imagePrompt, err);
-      imageUrls.push('');
-    }
-  }
+  const imageUrls = await Promise.all(imageGenerationPromises);
 
   const finalQuestionsWithImages: QuizQuestion[] = questionsWithImagePrompts.map((questionData, index) => ({
     ...questionData,
